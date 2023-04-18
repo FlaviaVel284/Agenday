@@ -11,9 +11,6 @@ const MainNavigation: React.FC = () => {
         </Link>
       </div>
       <div className={styles.buttons}>
-        <Link to="/about" className={styles.button} relative="path">
-          About
-        </Link>
         <Link to="/account" className={styles.button} relative="path">
           My Account
         </Link>
