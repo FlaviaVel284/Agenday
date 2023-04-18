@@ -1,0 +1,27 @@
+@import url("../App.css");
+
+.container {
+  position: sticky;
+  margin-top: 50vh;
+  margin-left: 20vw;
+}
+
+button {
+  padding: 15px;
+  color: white;
+  background-color: var(--blue-bell);
+  border-radius: 15px;
+  border-style: hidden;
+  stroke: black;
+}
+
+button:hover {
+  background-color: var(--minsk);
+}
+
+.image {
+  position: absolute;
+  width: 40vw;
+  right: 20vw;
+  opacity: 90%;
+}
