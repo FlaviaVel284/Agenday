@@ -1,7 +1,7 @@
 import classes from "./CreateAccount.module.css";
 import google from "../google.svg";
 import facebook from "../facebook.svg";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../Firebase";
 import { useEffect, useState } from "react";
@@ -12,22 +12,26 @@ const CreateAccount: React.FC = () => {
     value: nameValue,
     isValid: nameIsValid,
     valueChangeHandler: nameChangeHandler,
+    hasError: nameInputHasError,
   } = useInput((value) => value.trim() !== "");
 
   const {
     value: emailValue,
     isValid: emailIsValid,
+    hasError: emailInputHasError,
     valueChangeHandler: emailChangeHandler,
   } = useInput(
     (value) => value.trim() !== "" && value.trim().includes("@") === true
   );
 
-  const [password, setPassword] = useState<string>("");
-  const [isFormValid, setFormIsValid] = useState(false);
+  const {
+    value: passwordValue,
+    isValid: passwordIsValid,
+    hasError: passwordInputHasError,
+    valueChangeHandler: passwordChangeHandler,
+  } = useInput((value) => value.trim() !== "" && value.length > 6);
 
-  function passwordChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setPassword(event.target.value);
-  }
+  const [isFormValid, setFormIsValid] = useState(false);
 
   const navigate = useNavigate();
   function navigateToLoginHandler() {
@@ -35,19 +39,19 @@ const CreateAccount: React.FC = () => {
   }
 
   useEffect(() => {
-    if (nameIsValid && emailIsValid && password.trim() !== "") {
+    if (nameIsValid && emailIsValid && passwordIsValid) {
       setFormIsValid(true);
     } else {
       setFormIsValid(false);
     }
-  }, [nameValue, emailValue, password]);
+  }, [nameValue, emailValue, passwordValue]);
 
   const auth = getAuth(app);
 
   function submitFormHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (isFormValid) {
-      createUserWithEmailAndPassword(auth, emailValue, password)
+      createUserWithEmailAndPassword(auth, emailValue, passwordValue)
         .then((userCredential) => {
           const user = userCredential.user;
           navigate("/");
@@ -60,26 +64,54 @@ const CreateAccount: React.FC = () => {
     }
   }
 
+  const nameInputClasses = nameInputHasError ? classes.invalid : "";
+
+  const emailInputClasses = emailInputHasError ? classes.invalid : "";
+
+  const passwordInputClasses = passwordInputHasError ? classes.invalid : "";
+
   return (
     <div className={classes.container}>
       <form onSubmit={submitFormHandler}>
         <h1>Create Account</h1>
         <div>
-          <label>Name</label>
-          <input id="name" value={nameValue} onChange={nameChangeHandler} />
-        </div>
-        <div>
-          <label>Email</label>
-          <input id="email" value={emailValue} onChange={emailChangeHandler} />
-        </div>
-        <div>
-          <label>Password</label>
+          <label>Name</label>{" "}
+          {nameInputHasError && (
+            <p className={classes.error}>Name must not be empty</p>
+          )}
           <input
+            className={nameInputClasses}
+            id="name"
+            value={nameValue}
+            onChange={nameChangeHandler}
+          />{" "}
+        </div>
+        <div>
+          <label>Email</label>{" "}
+          {emailInputHasError && (
+            <p className={classes.error}>Email format not correct</p>
+          )}
+          <input
+            className={emailInputClasses}
+            id="email"
+            value={emailValue}
+            onChange={emailChangeHandler}
+          />{" "}
+        </div>
+        <div>
+          <label>Password</label>{" "}
+          {passwordInputHasError && (
+            <p className={classes.error}>
+              Password should be more than 6 characters!
+            </p>
+          )}
+          <input
+            className={passwordInputClasses}
             id="password"
             type="password"
-            value={password}
+            value={passwordValue}
             onChange={passwordChangeHandler}
-          />
+          />{" "}
         </div>{" "}
         <p>or you can just join with:</p>
         <div className={classes.icons}>
