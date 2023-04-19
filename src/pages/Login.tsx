@@ -1,13 +1,28 @@
 import classes from "./Login.module.css";
 import google from "../google.svg";
 import facebook from "../facebook.svg";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+
   function navigateToRegisterHandler(): void {
     navigate("/create-account");
   }
+
+  const auth = getAuth();
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
 
   return (
     <div className={classes.container}>

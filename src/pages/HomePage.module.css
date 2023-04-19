@@ -21,7 +21,8 @@ button:hover {
 
 .image {
   position: absolute;
-  width: 40vw;
-  right: 20vw;
+  top: 20vh;
+  height: 60vh;
+  left: 45vw;
   opacity: 90%;
 }
