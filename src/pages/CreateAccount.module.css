@@ -8,6 +8,11 @@
   margin-top: 10vh;
 }
 
+.container > p {
+  font-size: small;
+  margin-top: 20px;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -54,4 +59,8 @@ form > p {
 .button {
   width: 100%;
   font-weight: bold;
+}
+
+.login:hover {
+  color: var(--minsk);
 }

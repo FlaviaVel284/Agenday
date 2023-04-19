@@ -1,0 +1,70 @@
+@import url(../App.css);
+
+.container {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10vh;
+}
+
+.container > p {
+  font-size: small;
+  margin-top: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+form > h1 {
+  align-self: center;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+}
+
+div > label {
+  margin-bottom: 20px;
+}
+
+div > input {
+  border-radius: 10px;
+  height: 30px;
+  background-color: var(--ecru-white);
+  border-width: 1px;
+}
+
+form > p {
+  align-self: center;
+  font-size: small;
+  margin-top: -20px;
+}
+
+.icons {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  margin-top: -10px;
+
+  margin-bottom: -10px;
+  gap: 30px;
+}
+
+.icons > img {
+  width: 40px;
+  height: 40px;
+}
+
+.button {
+  width: 100%;
+  font-weight: bold;
+}
+
+.register:hover {
+  color: var(--minsk);
+}
