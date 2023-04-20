@@ -6,13 +6,19 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../Firebase";
 import { useEffect, useState } from "react";
 import useInput from "../hooks/useInput";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { setActiveUser } from "../store/authSlice";
 
 const CreateAccount: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const storedName = useAppSelector((state) => state.auth.userName);
   const {
     value: nameValue,
     isValid: nameIsValid,
     valueChangeHandler: nameChangeHandler,
     hasError: nameInputHasError,
+    inputBlurHandler: nameBlurHandler,
+    reset: resetNameInput,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -20,6 +26,8 @@ const CreateAccount: React.FC = () => {
     isValid: emailIsValid,
     hasError: emailInputHasError,
     valueChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    reset: resetEmailInput,
   } = useInput(
     (value) => value.trim() !== "" && value.trim().includes("@") === true
   );
@@ -29,6 +37,8 @@ const CreateAccount: React.FC = () => {
     isValid: passwordIsValid,
     hasError: passwordInputHasError,
     valueChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    reset: resetPasswordInput,
   } = useInput((value) => value.trim() !== "" && value.length > 6);
 
   const [isFormValid, setFormIsValid] = useState(false);
@@ -54,6 +64,10 @@ const CreateAccount: React.FC = () => {
       createUserWithEmailAndPassword(auth, emailValue, passwordValue)
         .then((userCredential) => {
           const user = userCredential.user;
+          dispatch(
+            setActiveUser({ userName: nameValue, userEmail: emailValue })
+          );
+          console.log(storedName);
           navigate("/");
         })
         .catch((error) => {
@@ -62,6 +76,10 @@ const CreateAccount: React.FC = () => {
           console.log(errorMessage);
         });
     }
+
+    resetNameInput();
+    resetEmailInput();
+    resetPasswordInput();
   }
 
   const nameInputClasses = nameInputHasError ? classes.invalid : "";
@@ -84,6 +102,7 @@ const CreateAccount: React.FC = () => {
             id="name"
             value={nameValue}
             onChange={nameChangeHandler}
+            onBlur={nameBlurHandler}
           />{" "}
         </div>
         <div>
@@ -95,6 +114,7 @@ const CreateAccount: React.FC = () => {
             className={emailInputClasses}
             id="email"
             value={emailValue}
+            onBlur={emailBlurHandler}
             onChange={emailChangeHandler}
           />{" "}
         </div>
@@ -110,6 +130,7 @@ const CreateAccount: React.FC = () => {
             id="password"
             type="password"
             value={passwordValue}
+            onBlur={passwordBlurHandler}
             onChange={passwordChangeHandler}
           />{" "}
         </div>{" "}

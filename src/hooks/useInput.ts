@@ -7,12 +7,17 @@ const useInput = (validateValue: (value: string) => {}) => {
   const [isTouched, setIsTouched] = useState(false);
   const hasError = !valueIsValid && isTouched;
 
-  useEffect(() => {
+  const inputBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     setIsTouched(true);
-  }, [enteredValue]);
+  };
 
   const valueChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredValue(event.currentTarget.value);
+  };
+
+  const reset = () => {
+    setEnteredValue("");
+    setIsTouched(false);
   };
 
   return {
@@ -20,6 +25,8 @@ const useInput = (validateValue: (value: string) => {}) => {
     isValid: valueIsValid,
     hasError,
     valueChangeHandler,
+    inputBlurHandler,
+    reset,
   };
 };
 
