@@ -14,6 +14,7 @@
 }
 
 form {
+  width: min(210px);
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -67,4 +68,15 @@ form > p {
 
 .register:hover {
   color: var(--minsk);
+}
+
+.invalid {
+  border: 1px solid #b40e0e;
+  background-color: #fddddd;
+}
+
+.error {
+  font-size: x-small;
+  color: #b40e0e;
+  margin-top: -15px;
 }

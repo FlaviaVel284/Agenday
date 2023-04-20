@@ -6,12 +6,11 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../Firebase";
 import { useEffect, useState } from "react";
 import useInput from "../hooks/useInput";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppDispatch } from "../hooks/hooks";
 import { setActiveUser } from "../store/authSlice";
 
 const CreateAccount: React.FC = () => {
   const dispatch = useAppDispatch();
-  const storedName = useAppSelector((state) => state.auth.userName);
   const {
     value: nameValue,
     isValid: nameIsValid,
@@ -67,7 +66,6 @@ const CreateAccount: React.FC = () => {
           dispatch(
             setActiveUser({ userName: nameValue, userEmail: emailValue })
           );
-          console.log(storedName);
           navigate("/");
         })
         .catch((error) => {
