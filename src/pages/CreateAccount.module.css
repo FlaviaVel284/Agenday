@@ -13,10 +13,17 @@
   margin-top: 20px;
 }
 
+.container > h1 {
+  margin-bottom: 40px;
+}
 form {
   display: flex;
   flex-direction: column;
   gap: 25px;
+}
+
+form > h1 {
+  width: min(250px);
 }
 
 form > div {

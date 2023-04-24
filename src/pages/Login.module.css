@@ -2,7 +2,6 @@
 
 .container {
   display: flex;
-  justify-content: stretch;
   align-items: center;
   flex-direction: column;
   margin-top: 10vh;
@@ -12,16 +11,14 @@
   font-size: small;
   margin-top: 20px;
 }
-
+.container > h1 {
+  margin-bottom: 50px;
+}
 form {
   width: min(210px);
   display: flex;
   flex-direction: column;
   gap: 25px;
-}
-
-form > h1 {
-  align-self: center;
 }
 
 form > div {

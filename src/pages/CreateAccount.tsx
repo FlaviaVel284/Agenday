@@ -2,12 +2,17 @@ import classes from "./CreateAccount.module.css";
 import google from "../google.svg";
 import facebook from "../facebook.svg";
 import { useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import app from "../Firebase";
+import {
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import { useEffect, useState } from "react";
 import useInput from "../hooks/useInput";
 import { useAppDispatch } from "../hooks/hooks";
 import { setActiveUser } from "../store/authSlice";
+import { auth, providerGoogle, providerFacebook } from "../Firebase";
 
 const CreateAccount: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +22,6 @@ const CreateAccount: React.FC = () => {
     valueChangeHandler: nameChangeHandler,
     hasError: nameInputHasError,
     inputBlurHandler: nameBlurHandler,
-    reset: resetNameInput,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -26,7 +30,6 @@ const CreateAccount: React.FC = () => {
     hasError: emailInputHasError,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
   } = useInput(
     (value) => value.trim() !== "" && value.trim().includes("@") === true
   );
@@ -37,7 +40,6 @@ const CreateAccount: React.FC = () => {
     hasError: passwordInputHasError,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-    reset: resetPasswordInput,
   } = useInput((value) => value.trim() !== "" && value.length > 6);
 
   const [isFormValid, setFormIsValid] = useState(false);
@@ -54,8 +56,6 @@ const CreateAccount: React.FC = () => {
       setFormIsValid(false);
     }
   }, [nameValue, emailValue, passwordValue]);
-
-  const auth = getAuth(app);
 
   function submitFormHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -74,10 +74,54 @@ const CreateAccount: React.FC = () => {
           console.log(errorMessage);
         });
     }
+  }
 
-    resetNameInput();
-    resetEmailInput();
-    resetPasswordInput();
+  function popUpGoogle(event: React.MouseEvent<HTMLImageElement>) {
+    event.preventDefault();
+    signInWithPopup(auth, providerGoogle)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (credential) {
+          const token = credential.accessToken;
+        }
+        const user = result.user;
+        console.log(result);
+        dispatch(
+          setActiveUser({ userName: user.displayName, userEmail: user.email })
+        );
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  }
+
+  function popUpFacebook(event: React.MouseEvent<HTMLImageElement>) {
+    event.preventDefault();
+    signInWithPopup(auth, providerFacebook)
+      .then((result) => {
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        if (credential) {
+          const token = credential.accessToken;
+        }
+        const user = result.user;
+        console.log(result);
+        dispatch(
+          setActiveUser({ userName: user.displayName, userEmail: user.email })
+        );
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        const email = error.customData.email;
+        const credential = FacebookAuthProvider.credentialFromError(error);
+      });
   }
 
   const nameInputClasses = nameInputHasError ? classes.invalid : "";
@@ -88,8 +132,9 @@ const CreateAccount: React.FC = () => {
 
   return (
     <div className={classes.container}>
+      {" "}
+      <h1>Create Account</h1>
       <form onSubmit={submitFormHandler}>
-        <h1>Create Account</h1>
         <div>
           <label>Name</label>{" "}
           {nameInputHasError && (
@@ -134,8 +179,13 @@ const CreateAccount: React.FC = () => {
         </div>{" "}
         <p>or you can just join with:</p>
         <div className={classes.icons}>
-          <img src={facebook} alt="facebook" id="facebook" />
-          <img src={google} alt="google" id="google" />
+          <img
+            src={facebook}
+            alt="facebook"
+            id="facebook"
+            onClick={popUpFacebook}
+          />
+          <img src={google} alt="google" id="google" onClick={popUpGoogle} />
         </div>
         <button className={classes.button} type="submit">
           SIGN UP

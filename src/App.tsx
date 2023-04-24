@@ -5,6 +5,7 @@ import CreateAccount from "./pages/CreateAccount";
 import Root from "./pages/Root";
 import ErrorPage from "./pages/ErrorPage";
 import Login from "./pages/Login";
+import MonthlyGoals from "./pages/MonthlyGoals";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "create-account", element: <CreateAccount /> },
       { path: "login", element: <Login /> },
+      { path: "monthly-goals", element: <MonthlyGoals /> },
     ],
     errorElement: <ErrorPage />,
   },

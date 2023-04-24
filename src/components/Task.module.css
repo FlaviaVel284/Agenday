@@ -1,0 +1,17 @@
+@import url(../App.css);
+
+.day_task {
+  display: grid;
+  grid-template-columns: repeat(31, 2vw);
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: var(--ecru-white);
+  border: 0.08em solid currentColor;
+  border-radius: 0.15em;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 0.5em;
+  margin: 0.25rem;
+}

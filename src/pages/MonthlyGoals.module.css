@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.nav_button {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.months_nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.arrows {
+  width: 20px;
+}
+
+.goals_container {
+  display: grid;
+  border: 2px solid black;
+}
+
+.title {
+  justify-self: center;
+  font-weight: 500;
+}
+
+.days {
+  display: grid;
+  grid-column-start: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(31, 2vw);
+}
+
+.day {
+  justify-self: center;
+}
+
+.tasks {
+  display: grid;
+  grid-template-rows: repeat(10, 2rem);
+  justify-self: center;
+}
+
+.task {
+  text-align: center;
+
+  align-self: center;
+}
+
+.rule_horizontal {
+  height: 1.5px;
+  background-color: black;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.rule_horizontal_2 {
+  height: 1.5px;
+  background-color: black;
+  margin-right: 1vw;
+}
+.rule_horizontal_top {
+  height: 1.5px;
+  background-color: black;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.rule_horizontal_2_top {
+  height: 1.5px;
+  background-color: black;
+  margin-right: 1vw;
+}
+
+.procents {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(31, 2vw);
+}
+
+.procent {
+  justify-self: center;
+}
